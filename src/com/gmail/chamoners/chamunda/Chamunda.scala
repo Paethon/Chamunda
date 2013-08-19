@@ -12,6 +12,7 @@ import java.util.HashSet
 import org.bukkit.Material
 import scala.collection.JavaConverters._
 import org.bukkit.entity.Monster
+import org.bukkit.Effect
 
 class Chamunda extends JavaPlugin {
 
@@ -57,10 +58,13 @@ class Chamunda extends JavaPlugin {
         case "b" =>
           p.sendMessage("echo b")
           true
-        case "kill" =>
+        case "nuke" =>
           for (lv <- env.world.getLivingEntities().asScala)
             if (lv.isInstanceOf[Monster])
               lv.remove()
+
+          p.sendMessage("KABOOOOM!")
+          env.world.playEffect(p.getLocation(), Effect.BLAZE_SHOOT, 0)
           true
         case _ => false
       }
