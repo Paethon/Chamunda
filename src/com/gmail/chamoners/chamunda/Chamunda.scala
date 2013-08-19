@@ -34,7 +34,8 @@ class Chamunda extends JavaPlugin {
         case "a" =>
           val hs = new HashSet[java.lang.Byte]()
           //for(i <- -127 to 127)
-            hs.add((0x00).byteValue)
+          //ASDUSD
+          hs.add((0x00).byteValue)
           val block = p.getTargetBlock(hs, 100)
           p.sendMessage(block.getType.toString)
           true

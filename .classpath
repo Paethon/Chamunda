@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/bukkit-1.6.2-R0.2-20130818.053221-8.jar"/>
-	<classpathentry kind="lib" path="/home/paethon/Documents/eclipse/Chamunda/lib/servlet-api-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api-2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
