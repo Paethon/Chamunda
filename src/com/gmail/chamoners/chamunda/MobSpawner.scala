@@ -5,6 +5,8 @@ import scala.util.{ Random ⇒ rnd }
 import org.bukkit.entity.CreatureType
 import scala.collection.mutable.HashMap
 import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.EntityType
+import org.bukkit.entity.Entity
 
 case class Point(x: Int, z: Int)
 case class MobState(spawnPoint: Point) {
@@ -18,7 +20,7 @@ class MobSpawner(val center: Point,
   val spawnArray = Array.fill[Double](spawnsize, spawnsize)(1.0)
   val server = plugin.getServer
   val world = server.getWorlds.get(0)
-  val mobStates = HashMap.empty[LivingEntity, MobState]
+  val mobStates = HashMap.empty[Entity, MobState]
 
   // Set spawn probability inside city to zero
   for (
@@ -40,18 +42,18 @@ class MobSpawner(val center: Point,
     Point(center.x + x - spawnsize / 2, center.z + z - spawnsize / 2)
   }
 
-  def addCreature(mob: LivingEntity, spawnPoint: Point) {
+  def addCreature(mob: Entity, spawnPoint: Point) {
     mobStates += (mob -> MobState(spawnPoint))
   }
 
-  def removeCreature(mob: LivingEntity) {
+  def removeCreature(mob: Entity) {
     mobStates -= mob
   }
 
-  def spawn(creatureType: CreatureType) = {
+  def spawn(entityType: EntityType) = {
     val p = spawnPoint
-    val mob = world.spawnCreature(world.getHighestBlockAt(p.x, p.z).getLocation,
-      creatureType)
+    val mob = world.spawnEntity(world.getHighestBlockAt(p.x, p.z).getLocation,
+      entityType)
     addCreature(mob,p)
   }
 
