@@ -9,6 +9,8 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Creature
 
+import Preamble._
+
 case class Point(x: Int, z: Int)
 case class MobState(spawnPoint: Point) {
   var promoted = false
@@ -17,10 +19,8 @@ case class MobState(spawnPoint: Point) {
 
 class MobSpawner(val center: Point,
                  val spawnsize: Int, val xCitySize: Int, val zCitySize: Int,
-                 val plugin: JavaPlugin) {
+                 val env:Environment) {
   val spawnArray = Array.fill[Double](spawnsize, spawnsize)(1.0)
-  val server = plugin.getServer
-  val world = server.getWorlds.get(0)
   val mobStates = HashMap.empty[Entity, MobState]
 
   // Set spawn probability inside city to zero
@@ -46,17 +46,17 @@ class MobSpawner(val center: Point,
   def addCreature(mob: Entity, spawnPoint: Point) {
     mobStates += (mob -> MobState(spawnPoint))
   }
-
+  
   def removeCreature(mob: Entity) {
     mobStates -= mob
   }
 
   def spawn(entityType: EntityType) = {
     val p = spawnPoint
-    val mob = world.spawnEntity(world.getHighestBlockAt(p.x, p.z).getLocation,
+    val mob = env.world.spawnEntity(env.world.getHighestBlockAt(p.x, p.z).getLocation,
       entityType)
     addCreature(mob, p)
-    mob.asInstanceOf[Creature].setTarget(world.getPlayers.get(0))
+    mob.asInstanceOf[Creature].setTarget(env.world.getPlayers.get(0))
   }
 
   /**

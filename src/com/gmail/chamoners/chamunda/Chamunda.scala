@@ -27,14 +27,12 @@ class Chamunda extends JavaPlugin {
 
       cmd.getName.toLowerCase match {
         case "test" =>
-          val spawner = new MobSpawner(p.getLocation(), 20, 10, 10, this)
+          val spawner = new MobSpawner(p.getLocation(), 20, 10, 10, Environment(this))
           for (i <- 1 to 100)
             spawner.spawn(EntityType.ZOMBIE)
           true
         case "a" =>
           val hs = new HashSet[java.lang.Byte]()
-          //for(i <- -127 to 127)
-          //ASDUSD
           hs.add((0x00).byteValue)
           val block = p.getTargetBlock(hs, 100)
           p.sendMessage(block.getType.toString)
