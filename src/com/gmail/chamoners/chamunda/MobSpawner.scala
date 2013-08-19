@@ -52,6 +52,7 @@ class MobSpawner(val center: Point,
     val p = spawnPoint
     val mob = world.spawnCreature(world.getHighestBlockAt(p.x, p.z).getLocation,
       creatureType)
+    addCreature(mob,p)
   }
 
   /**
