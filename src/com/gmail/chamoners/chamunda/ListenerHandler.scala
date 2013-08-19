@@ -10,7 +10,8 @@ import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import scala.language.implicitConversions
 import Preamble._
-// From https://github.com/nmarshall23/scalaBukkitPlugin/tree/master/src/main/scala/com/gmail/nmarshall23/demo
+// Originally from. Changed a lot.
+// https://github.com/nmarshall23/scalaBukkitPlugin/tree/master/src/main/scala/com/gmail/nmarshall23/demo
 class ListenerHandler(plugin: Chamunda) extends Listener {
   @EventHandler
   def getSignPlacement(event: PlayerInteractEvent) = {
@@ -29,16 +30,14 @@ class ListenerHandler(plugin: Chamunda) extends Listener {
     }
   }
 
-  def signPlacement(b: Block): Unit = {
-
+  def signPlacement(b: Block) {
     plugin.getServer().broadcastMessage("Sign Clicked!")
-    var sign = b.getState().asInstanceOf[Sign]
-
+    val sign = b.getState().asInstanceOf[Sign]
     val line = ChatColor.DARK_RED + sign.getLine(0)
     sign.setLine(0, line)
 
     // I know there is a better way.
     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin,
-      {sign.update()}, 1)
+      { sign.update() })
   }
 }
