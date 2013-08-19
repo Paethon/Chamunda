@@ -1,12 +1,13 @@
 package com.gmail.chamoners.chamunda
 
 import org.bukkit.plugin.java.JavaPlugin
-import scala.util.{ Random ⇒ rnd }
+import scala.util.{ Random => rnd }
 import org.bukkit.entity.CreatureType
 import scala.collection.mutable.HashMap
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Entity
+import org.bukkit.entity.Creature
 
 case class Point(x: Int, z: Int)
 case class MobState(spawnPoint: Point) {
@@ -54,7 +55,8 @@ class MobSpawner(val center: Point,
     val p = spawnPoint
     val mob = world.spawnEntity(world.getHighestBlockAt(p.x, p.z).getLocation,
       entityType)
-    addCreature(mob,p)
+    addCreature(mob, p)
+    mob.asInstanceOf[Creature].setTarget(world.getPlayers.get(0))
   }
 
   /**

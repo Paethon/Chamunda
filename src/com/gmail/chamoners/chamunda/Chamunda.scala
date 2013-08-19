@@ -7,6 +7,8 @@ import Preamble._
 import org.bukkit.command._
 import org.bukkit.entity.Player
 import org.bukkit.entity.CreatureType
+import org.bukkit.entity.EntityType
+import java.util.HashSet
 
 class Chamunda extends JavaPlugin {
 
@@ -27,10 +29,14 @@ class Chamunda extends JavaPlugin {
         case "test" =>
           val spawner = new MobSpawner(p.getLocation(), 20, 10, 10, this)
           for (i <- 1 to 100)
-            spawner.spawn(CreatureType.ZOMBIE)
+            spawner.spawn(EntityType.ZOMBIE)
           true
         case "a" =>
-          p.sendMessage("echo a")
+          val hs = new HashSet[java.lang.Byte]()
+          //for(i <- -127 to 127)
+            hs.add((0x00).byteValue)
+          val block = p.getTargetBlock(hs, 100)
+          p.sendMessage(block.getType.toString)
           true
         case "b" =>
           p.sendMessage("echo b")
