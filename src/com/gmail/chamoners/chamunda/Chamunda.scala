@@ -13,15 +13,20 @@ import java.util.HashSet
 class Chamunda extends JavaPlugin {
 
   lazy val log = Logger.getLogger("Minecraft")
-  lazy val mobControl = new MobController(Environment(this))
-  
-  override def onEnable {
-    log.info("Scala Enabled!")
+  lazy val env = Environment(this)
+  lazy val mobControl = new MobController(env)
 
+  override def onEnable {
+    //Listener init
     val pm = this.getServer().getPluginManager()
-    pm.registerEvents(new ListenerHandler(this), this)
-    
+    pm.registerEvents(listener.ListenerSpawnlogic(env), this)
+
+    //Scheduler init
     mobControl.attach
+  }
+
+  override def onDisable {
+
   }
 
   override def onCommand(sender: CommandSender, cmd: Command, label: String, args: Array[String]) = {
@@ -47,10 +52,6 @@ class Chamunda extends JavaPlugin {
       }
     } else
       false
-  }
-
-  override def onDisable {
-
   }
 
 }
