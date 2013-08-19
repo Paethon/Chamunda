@@ -1,7 +1,6 @@
 package com.gmail.chamoners.chamunda
 
-class Village(c: Point, width: Int, height: Int) {
-
+class Village(val c: Point, val width: Int, val height: Int) {
 }
 
 object Village {
@@ -10,9 +9,9 @@ object Village {
   }
 
   def apply(from: Point, to: Point) = {
-    val difx = from.x - to.x
-    val difz = from.z - to.z
+    val diff = (from - to).abs
+    val center = (from + to) / 2
 
-    //new Village(p: Point, width: Int, height: Int)
+    new Village(center, diff.x, diff.z)
   }
 }

@@ -9,6 +9,9 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.CreatureType
 import org.bukkit.entity.EntityType
 import java.util.HashSet
+import org.bukkit.Material
+import scala.collection.JavaConverters._
+import org.bukkit.entity.Monster
 
 class Chamunda extends JavaPlugin {
 
@@ -23,9 +26,12 @@ class Chamunda extends JavaPlugin {
 
     //Scheduler init
     mobControl.attach
-    
+
     //Create TestVillage
-    
+    val v = Village(Point(-149, 647), Point(-94, 711))
+    val vc = v.c(env.world)
+    vc.setY(env.world.getHighestBlockAt(vc).getY())
+    vc.getBlock().setType(Material.DIAMOND_BLOCK)
   }
 
   override def onDisable {
@@ -50,6 +56,11 @@ class Chamunda extends JavaPlugin {
           true
         case "b" =>
           p.sendMessage("echo b")
+          true
+        case "kill" =>
+          for (lv <- env.world.getLivingEntities().asScala)
+            if (lv.isInstanceOf[Monster])
+              lv.remove()
           true
         case _ => false
       }
