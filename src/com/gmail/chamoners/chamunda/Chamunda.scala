@@ -24,18 +24,18 @@ class Chamunda extends JavaPlugin {
       val p = sender.asInstanceOf[Player]
 
       cmd.getName.toLowerCase match {
-        case "test" ⇒
+        case "test" =>
           val spawner = new MobSpawner(p.getLocation(), 20, 10, 10, this)
-          for (i ← 1 to 100)
+          for (i <- 1 to 100)
             spawner.spawn(CreatureType.ZOMBIE)
           true
-        case "a" ⇒
+        case "a" =>
           p.sendMessage("echo a")
           true
-        case "b" ⇒
+        case "b" =>
           p.sendMessage("echo b")
           true
-        case _ ⇒ false
+        case _ => false
       }
     } else
       false

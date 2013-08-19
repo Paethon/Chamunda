@@ -18,12 +18,12 @@ class MobSpawner(val center: Point,
   val spawnArray = Array.fill[Double](spawnsize, spawnsize)(1.0)
   val server = plugin.getServer
   val world = server.getWorlds.get(0)
-  val spawnPosition = HashMap.empty[LivingEntity, MobState]
+  val mobStates = HashMap.empty[LivingEntity, MobState]
 
   // Set spawn probability inside city to zero
   for (
-    x ← (spawnsize / 2) - (xCitySize / 2) until (spawnsize / 2) + (xCitySize / 2);
-    z ← (spawnsize / 2) - (zCitySize / 2) until (spawnsize / 2) + (zCitySize / 2)
+    x <- (spawnsize / 2) - (xCitySize / 2) until (spawnsize / 2) + (xCitySize / 2);
+    z <- (spawnsize / 2) - (zCitySize / 2) until (spawnsize / 2) + (zCitySize / 2)
   ) spawnArray(x)(z) = 0.0
 
   private def spawnPoint = {
@@ -40,10 +40,19 @@ class MobSpawner(val center: Point,
     Point(center.x + x - spawnsize / 2, center.z + z - spawnsize / 2)
   }
 
+  def addCreature(mob: LivingEntity, spawnPoint: Point) {
+    mobStates += (mob -> MobState(spawnPoint))
+  }
+
+  def removeCreature(mob: LivingEntity) {
+
+  }
+
   def spawn(creatureType: CreatureType) = {
     val p = spawnPoint
-    world.spawnCreature(world.getHighestBlockAt(p.x, p.z).getLocation,
+    val mob = world.spawnCreature(world.getHighestBlockAt(p.x, p.z).getLocation,
       creatureType)
+
   }
 
   /**
@@ -55,15 +64,15 @@ class MobSpawner(val center: Point,
    */
   private def multiply(center: Point, radius: Int, value: Double) {
     for (
-      x ← center.x - radius until center.x + radius;
-      z ← center.z - radius until center.z + radius
+      x <- center.x - radius until center.x + radius;
+      z <- center.z - radius until center.z + radius
     ) spawnArray(x)(z) *= value
   }
   /**
-   * 
+   *
    */
   def promote(e: LivingEntity, radius: Int = 5, amount: Double = 1.2) {
-    val state = spawnPosition(e)
+    val state = mobStates(e)
     if (!state.promoted) {
       multiply(state.spawnPoint, radius, amount)
       state.promoted = true
@@ -71,7 +80,7 @@ class MobSpawner(val center: Point,
   }
 
   def demote(e: LivingEntity, radius: Int = 5, amount: Double = 0.8) {
-    val state = spawnPosition(e)
+    val state = mobStates(e)
     if (!state.demoted) {
       multiply(state.spawnPoint, radius, amount)
       state.demoted = true

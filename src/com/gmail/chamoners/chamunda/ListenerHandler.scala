@@ -16,15 +16,15 @@ class ListenerHandler(plugin: Chamunda) extends Listener {
   @EventHandler
   def getSignPlacement(event: PlayerInteractEvent) = {
     event match {
-      case event if event.isCancelled() ⇒
+      case event if event.isCancelled() =>
         Unit
-      case event if event.hasBlock() == false ⇒
+      case event if event.hasBlock() == false =>
         Unit
-      case event if event.getAction() != Action.RIGHT_CLICK_BLOCK ⇒
+      case event if event.getAction() != Action.RIGHT_CLICK_BLOCK =>
         Unit
-      case event if event.getClickedBlock().getType() != Material.WALL_SIGN ⇒
+      case event if event.getClickedBlock().getType() != Material.WALL_SIGN =>
         Unit
-      case event ⇒
+      case event =>
         event.setCancelled(true)
         signPlacement(event.getClickedBlock())
     }
