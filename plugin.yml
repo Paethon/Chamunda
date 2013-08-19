@@ -1,6 +1,7 @@
 name: Chamunda
 main: com.gmail.chamoners.chamunda.Chamunda
 version: 0.1
+depend: [ControllableMobsAPI]
 commands:
    test:
       description: This is a demo command.
