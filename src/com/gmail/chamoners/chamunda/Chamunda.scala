@@ -23,6 +23,9 @@ class Chamunda extends JavaPlugin {
 
     //Scheduler init
     mobControl.attach
+    
+    //Create TestVillage
+    
   }
 
   override def onDisable {

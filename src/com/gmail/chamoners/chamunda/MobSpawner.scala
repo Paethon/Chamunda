@@ -11,7 +11,7 @@ import org.bukkit.entity.Creature
 
 import Preamble._
 
-case class Point(x: Int, z: Int)
+
 case class MobState(spawnPoint: Point) {
   var promoted = false
   var demoted = false
