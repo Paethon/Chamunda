@@ -11,7 +11,6 @@ import org.bukkit.entity.Creature
 
 import Preamble._
 
-
 case class MobState(spawnPoint: Point) {
   var promoted = false
   var demoted = false
@@ -19,7 +18,7 @@ case class MobState(spawnPoint: Point) {
 
 class MobSpawner(val center: Point,
                  val spawnsize: Int, val xCitySize: Int, val zCitySize: Int,
-                 val env:Environment) {
+                 val env: Environment) {
   val spawnArray = Array.fill[Double](spawnsize, spawnsize)(1.0)
   val mobStates = HashMap.empty[Entity, MobState]
 
@@ -46,7 +45,7 @@ class MobSpawner(val center: Point,
   def addCreature(mob: Entity, spawnPoint: Point) {
     mobStates += (mob -> MobState(spawnPoint))
   }
-  
+
   def removeCreature(mob: Entity) {
     mobStates -= mob
   }

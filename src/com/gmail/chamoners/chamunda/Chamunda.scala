@@ -23,16 +23,18 @@ class Chamunda extends JavaPlugin {
   override def onEnable {
     //Listener init
     val pm = this.getServer().getPluginManager()
-    pm.registerEvents(listener.ListenerSpawnlogic(env), this)
 
     //Scheduler init
     mobControl.attach
 
     //Create TestVillage
-    val v = Village(Point(-149, 647), Point(-94, 711))
+    val v = Village(Point(-149, 647), Point(-94, 711), env)
+    pm.registerEvents(listener.ListenerSpawnlogic(env, v), this)
+
     val vc = v.c(env.world)
     vc.setY(env.world.getHighestBlockAt(vc).getY())
     vc.getBlock().setType(Material.DIAMOND_BLOCK)
+
   }
 
   override def onDisable {
