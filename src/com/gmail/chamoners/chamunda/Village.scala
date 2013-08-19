@@ -13,6 +13,6 @@ object Village {
     val difx = from.x - to.x
     val difz = from.z - to.z
 
-    new Village(p: Point, width: Int, height: Int)
+    //new Village(p: Point, width: Int, height: Int)
   }
 }
