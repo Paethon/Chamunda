@@ -7,5 +7,4 @@ import com.gmail.chamoners.chamunda.MobSpawner
 case class ListenerSpawnlogic(env: Environment) extends Listener {
 
   //  val ms = MobSpawner.m
-
 }

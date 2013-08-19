@@ -1,4 +1,4 @@
-package com.gmail.chamoners.chamunda
+package com.gmail.chamoners.chamunda.listener
 
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
@@ -8,8 +8,8 @@ import org.bukkit.ChatColor
 import org.bukkit.event.block.Action
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
-import scala.language.implicitConversions
 import Preamble._
+import com.gmail.chamoners.chamunda.Chamunda
 // Originally from. Changed a lot.
 // https://github.com/nmarshall23/scalaBukkitPlugin/tree/master/src/main/scala/com/gmail/nmarshall23/demo
 class ListenerHandler(plugin: Chamunda) extends Listener {
