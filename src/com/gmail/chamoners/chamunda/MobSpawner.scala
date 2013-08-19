@@ -45,14 +45,13 @@ class MobSpawner(val center: Point,
   }
 
   def removeCreature(mob: LivingEntity) {
-
+    mobStates -= mob
   }
 
   def spawn(creatureType: CreatureType) = {
     val p = spawnPoint
     val mob = world.spawnCreature(world.getHighestBlockAt(p.x, p.z).getLocation,
       creatureType)
-
   }
 
   /**
