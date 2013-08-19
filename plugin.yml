@@ -1,0 +1,19 @@
+name: Chamunda
+main: com.gmail.chamoners.chamunda.Chamunda
+version: 0.1
+commands:
+   test:
+      description: This is a demo command.
+      usage: /<command> [player]
+      permission: <plugin name>.basic
+      permission-message: You don't have <permission>
+   a:
+      description: This is a demo command.
+      usage: /<command> [player]
+      permission: <plugin name>.basic
+      permission-message: You don't have <permission>
+   b:
+      description: This is a demo command.
+      usage: /<command> [player]
+      permission: <plugin name>.basic
+      permission-message: You don't have <permission>
