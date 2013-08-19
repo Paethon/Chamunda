@@ -10,9 +10,8 @@ import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import scala.language.implicitConversions
 import Preamble._
-
+// From https://github.com/nmarshall23/scalaBukkitPlugin/tree/master/src/main/scala/com/gmail/nmarshall23/demo
 class ListenerHandler(plugin: Chamunda) extends Listener {
-
   @EventHandler
   def getSignPlacement(event: PlayerInteractEvent) = {
     event match {
