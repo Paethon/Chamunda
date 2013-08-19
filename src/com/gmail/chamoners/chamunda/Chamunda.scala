@@ -13,12 +13,15 @@ import java.util.HashSet
 class Chamunda extends JavaPlugin {
 
   lazy val log = Logger.getLogger("Minecraft")
-
+  lazy val mobControl = new MobController(Environment(this))
+  
   override def onEnable {
     log.info("Scala Enabled!")
 
     val pm = this.getServer().getPluginManager()
     pm.registerEvents(new ListenerHandler(this), this)
+    
+    mobControl.attach
   }
 
   override def onCommand(sender: CommandSender, cmd: Command, label: String, args: Array[String]) = {
