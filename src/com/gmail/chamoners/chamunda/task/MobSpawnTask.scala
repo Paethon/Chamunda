@@ -12,12 +12,14 @@ class MobSpawnTask(env: Environment) {
   def randomMonster = monsterList(util.Random.nextInt(monsterList.length))
 
   private def timetick {
-    if (env.world.getPlayers().size() > 0)
-      env.vill.mobspawn.spawn(randomMonster)
+    if (env.zeit == Zeit.Night)
+      for (v <- 0 until env.world.getPlayers().size())
+        if (env.world.getPlayers().size() > 0)
+          env.vill.mobspawn.spawn(randomMonster)
   }
 
   def attach {
-    env.execute(40) { timetick }
+    env.execute(80) { timetick }
     env.log.info("MobSpawnTask attached")
   }
 }

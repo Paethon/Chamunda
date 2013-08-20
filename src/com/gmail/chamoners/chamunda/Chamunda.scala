@@ -48,7 +48,7 @@ class Chamunda extends JavaPlugin {
 
     //Create TestVillage
     this.getServer().getPluginManager().registerEvents(ListenerSpawnlogic(env), this)
-    env.changeZeit(Zeit.Night)
+    env.changeZeit(Zeit.Dusk)
   }
 
   def onChamundaDisable {

@@ -27,6 +27,8 @@ class BlockHealth(env: Environment) {
 
   def attack(b: Block) {
     val blockType = b.getType
+    //    env.log.info(blockType.toString())
+
     if (initialHealth.contains(blockType)) {
       val health = healthMap.getOrElseUpdate(b, initialHealth(blockType))
 

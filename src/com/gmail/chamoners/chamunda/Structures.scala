@@ -36,7 +36,7 @@ case class Environment(plugin: JavaPlugin) {
   val server = plugin.getServer
   val world = server.getWorlds.get(0) //Plugin affects only Default World
   val log = Logger.getLogger("Minecraft")
-  val vill = Village(Point(-149, 647), Point(-94, 711), this)
+  val vill = Village(Point(-428, 784), Point(-370, 725), this)
   var zeit: Zeit = calcZeit()
 
   def calcZeit(): Zeit = {
