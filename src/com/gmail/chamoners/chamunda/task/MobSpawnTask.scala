@@ -6,14 +6,14 @@ import com.gmail.chamoners.chamunda.Environment
 import com.gmail.chamoners.chamunda.Zeit
 import scala.collection.JavaConverters._
 
-class MobSpawnTask(env: Environment, vill: Village) {
+class MobSpawnTask(env: Environment) {
   import EntityType._
   val monsterList = List(ZOMBIE, SKELETON, SPIDER)
   def randomMonster = monsterList(util.Random.nextInt(monsterList.length))
-  
+
   private def timetick {
     if (env.world.getPlayers().size() > 0)
-      vill.mobspawn.spawn(randomMonster)
+      env.vill.mobspawn.spawn(randomMonster)
   }
 
   def attach {

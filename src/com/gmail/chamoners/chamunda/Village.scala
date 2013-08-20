@@ -10,6 +10,7 @@ class Village(val c: Point, val width: Int, val height: Int, env: Environment) {
 
   lazy val mobspawn = new MobSpawner(c, width + 20, height + 20, width, height, env)
   lazy val villagers = initVillagers
+  var difficulty = 1000 //Just the time in ticks it takes a night
 
   /**
    * *
@@ -21,7 +22,7 @@ class Village(val c: Point, val width: Int, val height: Int, env: Environment) {
       if (lv.isInstanceOf[Villager])
         tmp.add(lv.asInstanceOf[Villager])
 
-    server.broadcastMessage("Villagers initialized ")
+    //    server.broadcastMessage("Villagers initialized ")
 
     return tmp
   }

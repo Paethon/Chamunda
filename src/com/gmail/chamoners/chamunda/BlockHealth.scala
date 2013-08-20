@@ -15,9 +15,11 @@ class BlockHealth(env: Environment) {
   def attack(b: Block) {
     import Material._
     val initialHealth = b.getType match {
-      case DIRT          => 1
+      case DIRT          => 9999
       case STONE         => 10
       case DIAMOND_BLOCK => 20
+      case WOOD => 80
+      case WOOD_DOOR => 40
       case _             => 5
     }
     val health = healthMap.getOrElseUpdate(b, initialHealth)
