@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityInteractEvent
 import org.bukkit.event.entity.CreatureSpawnEvent
 import com.gmail.chamoners.chamunda.Point
 import com.gmail.chamoners.chamunda.MobState
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason
 
 case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener {
 
@@ -55,9 +56,13 @@ case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener 
   def mobSpawn(event: CreatureSpawnEvent) = {
     val entity = event.getEntity()
     if (entity.isInstanceOf[Monster]) {
+      //      env.server.broadcastMessage(event.getSpawnReason().toString())
+      if (event.getSpawnReason() == SpawnReason.NATURAL)
+        event.setCancelled(true)
+      //        true
       //vill.mobspawn.addCreature(mob, spawnPoint)
-      val l = event.getLocation()
-      vill.mobspawn.mobStates += (entity -> MobState(Point(l.getBlockX(), l.getBlockZ())))
+      //      val l = event.getLocation()
+      //      vill.mobspawn.mobStates += (entity -> MobState(Point(l.getBlockX(), l.getBlockZ())))
     }
   }
 }
