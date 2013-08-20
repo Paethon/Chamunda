@@ -8,8 +8,15 @@ import scala.collection.JavaConverters._
 
 class MobSpawnTask(env: Environment) {
   import EntityType._
-  val monsterList = List(ZOMBIE, SKELETON, SILVERFISH)
-  def randomMonster = monsterList(util.Random.nextInt(monsterList.length))
+  val monsterProb = Map(ZOMBIE -> 0.5, SKELETON -> 0.3, SILVERFISH -> 0.2)
+  val monsterList = monsterProb.keys.toList
+  def randomMonster = {
+    var monster: EntityType = null
+    do {
+      monster = monsterList(util.Random.nextInt(monsterList.length))
+    } while (util.Random.nextDouble > monsterProb(monster))
+    monster
+  }
 
   private def timetick {
     if (env.zeit == Zeit.Night)

@@ -74,8 +74,10 @@ class MobSpawner(val center: Point,
     val xEnd = (center.x + radius) min (xSpawnSize)
     val zBegin = (center.z - radius) max 0
     val zEnd = (center.z + radius) min (zSpawnSize)
-    for (x <- xBegin until xEnd; z <- zBegin until zEnd)
-      spawnArray(x)(z) *= value
+    for (x <- xBegin until xEnd; z <- zBegin until zEnd) {
+      val newValue = ((spawnArray(x)(z) * value) min 1) max 0.1
+      spawnArray(x)(z) = newValue
+    }
   }
   /**
    *
@@ -90,6 +92,11 @@ class MobSpawner(val center: Point,
     }
   }
 
+  def demoteAll(value: Double) {
+    for(x <- 0 until xSpawnSize; z <- 0 until zSpawnSize)
+      spawnArray(x)(z) *= value
+  }
+  
   def demote(e: LivingEntity, radius: Int = 5, amount: Double = 0.8) {
     if (mobStates.contains(e)) {
       val state = mobStates(e)
