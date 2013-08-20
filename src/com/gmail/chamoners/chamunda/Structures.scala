@@ -47,6 +47,7 @@ case class Environment(plugin: JavaPlugin) {
   }
 
   def changeZeit(newZeit: Zeit) {
+    world.setTime(newZeit.getTime())
     zeit = newZeit
     server.getPluginManager().callEvent(new ZeitgeberEvent(newZeit))
   }
@@ -57,10 +58,6 @@ case class Environment(plugin: JavaPlugin) {
 
   def executeOnce(delay: Int = 0)(f: => Any) = {
     server.getScheduler().scheduleSyncDelayedTask(plugin, f, delay)
-  }
-
-  def zeitChange(zeit: Zeit) = {
-    world.setTime(zeit.getTime())
   }
 
   def randomPlayer = {
