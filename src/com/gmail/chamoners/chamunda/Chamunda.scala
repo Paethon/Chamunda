@@ -13,6 +13,7 @@ import org.bukkit.Material
 import scala.collection.JavaConverters._
 import org.bukkit.entity.Monster
 import org.bukkit.Effect
+import com.gmail.chamoners.chamunda.Environment
 
 class Chamunda extends JavaPlugin {
 
