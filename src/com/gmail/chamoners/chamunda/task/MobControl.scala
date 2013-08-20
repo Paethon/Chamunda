@@ -23,7 +23,7 @@ class MobController(env: Environment) {
         if (!controlledEntities.contains(e) && e.isInstanceOf[Monster]) {
           controlledEntities += e
           val le = e.asInstanceOf[LivingEntity]
-          val ce = ControllableMobs.getOrAssign(le, true)
+          val ce = ControllableMobs.getOrAssign(le)
 
           e.getType match {
             case ZOMBIE =>
@@ -38,10 +38,9 @@ class MobController(env: Environment) {
                   env.log.info("Removed zombie since no villager there to attach to")
               }
 
-            case SKELETON | SPIDER =>
+            case _ =>
               env.randomPlayer match {
                 case Some(rndPlayer) =>
-                  ce.getProperties().setMaximumWalkingDistance(10000)
                   ce.getActions().target(rndPlayer)
                   ce.getActions().follow(rndPlayer)
                 case None =>
@@ -49,7 +48,6 @@ class MobController(env: Environment) {
                   e.remove
                   env.log.info("Removed monster since no player there to attach to")
               }
-            case _ =>
           }
         }
       }
