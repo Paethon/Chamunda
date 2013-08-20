@@ -13,11 +13,13 @@ import org.bukkit.Material
 import scala.collection.JavaConverters._
 import org.bukkit.entity.Monster
 import org.bukkit.Effect
+import com.gmail.chamoners.chamunda.task.MobController
 
 class Chamunda extends JavaPlugin {
 
   lazy val log = Logger.getLogger("Minecraft")
   lazy val env = Environment(this)
+
   lazy val mobControl = new MobController(env)
 
   override def onEnable {
@@ -25,7 +27,7 @@ class Chamunda extends JavaPlugin {
     val pm = this.getServer().getPluginManager()
 
     //Scheduler init
-    //mobControl.attach
+    mobControl.attach
 
     //Create TestVillage
     val v = Village(Point(-149, 647), Point(-94, 711), env)
