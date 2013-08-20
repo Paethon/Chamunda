@@ -80,32 +80,42 @@ class MobSpawner(val center: Point,
   /**
    *
    */
-  def promote(e: LivingEntity, radius: Int = 5, amount: Double = 1.2) {
-    val state = mobStates(e)
-    if (!state.promoted) {
-      multiply(state.spawnPoint, radius, amount)
-      state.promoted = true
+  def promote(e: Entity, radius: Int = 5, amount: Double = 1.2) {
+    if (mobStates.contains(e)) {
+      val state = mobStates(e)
+      if (!state.promoted) {
+        //        env.server.broadcastMessage("PRO-MODE " + radius + "/" + amount)
+        multiply(state.spawnPoint, radius, amount)
+        state.promoted = true
+      }
+    } else {
+      println(e)
     }
   }
 
-  def demote(e: LivingEntity, radius: Int = 5, amount: Double = 0.8) {
-    val state = mobStates(e)
-    if (!state.demoted) {
-      multiply(state.spawnPoint, radius, amount)
-      state.demoted = true
+  def demote(e: Entity, radius: Int = 5, amount: Double = 0.8) {
+    if (mobStates.contains(e)) {
+      val state = mobStates(e)
+      if (!state.demoted) {
+        //        env.server.broadcastMessage("DE-MODE " + radius + "/" + amount)
+        multiply(state.spawnPoint, radius, amount)
+        state.demoted = true
+      }
+    } else {
+      println(e)
     }
   }
 
   def writeProbability(filename: String) {
-    val image = new BufferedImage(xSpawnSize, zSpawnSize, 
-        BufferedImage.TYPE_INT_ARGB)
-    
-    for(x <- 0 until xSpawnSize; z <- 0 until zSpawnSize) {
-        val v = spawnArray(x)(z).floatValue min 1.0.floatValue
-        val c = new Color(v,v,v)
-    	val buf = image.setRGB(x, z, c.getRGB())
+    val image = new BufferedImage(xSpawnSize, zSpawnSize,
+      BufferedImage.TYPE_INT_ARGB)
+
+    for (x <- 0 until xSpawnSize; z <- 0 until zSpawnSize) {
+      val v = spawnArray(x)(z).floatValue min 1.0.floatValue
+      val c = new Color(v, v, v)
+      val buf = image.setRGB(x, z, c.getRGB())
     }
-    
+
     // Save file
     val file = new File(filename)
     ImageIO.write(image, "png", file)

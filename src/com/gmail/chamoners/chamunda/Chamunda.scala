@@ -14,26 +14,36 @@ import scala.collection.JavaConverters._
 import org.bukkit.entity.Monster
 import org.bukkit.Effect
 import com.gmail.chamoners.chamunda.task.MobController
+import com.gmail.chamoners.chamunda.task.ZeitgeberTask
+import com.gmail.chamoners.chamunda.task.MobSpawnTask
 
 class Chamunda extends JavaPlugin {
 
   lazy val log = Logger.getLogger("Minecraft")
   lazy val env = Environment(this)
 
+  //Tasks
   lazy val mobControl = new MobController(env)
+  lazy val zeitgeberTask = new ZeitgeberTask(env)
+  lazy val mobSpawnTask = new MobSpawnTask(env, vill)
+
+  var vill: Village = null
 
   override def onEnable {
+    vill = Village(Point(-149, 647), Point(-94, 711), env)
+
     //Listener init
     val pm = this.getServer().getPluginManager()
 
     //Scheduler init
     mobControl.attach
+    zeitgeberTask.attach
+    mobSpawnTask.attach
 
     //Create TestVillage
-    val v = Village(Point(-149, 647), Point(-94, 711), env)
-    pm.registerEvents(listener.ListenerSpawnlogic(env, v), this)
+    pm.registerEvents(listener.ListenerSpawnlogic(env, vill), this)
 
-    val vc = v.c(env.world)
+    val vc = vill.c(env.world)
     vc.setY(env.world.getHighestBlockAt(vc).getY())
     vc.getBlock().setType(Material.DIAMOND_BLOCK)
 
@@ -60,7 +70,7 @@ class Chamunda extends JavaPlugin {
           p.sendMessage(block.getType.toString)
           true
         case "b" =>
-          p.sendMessage("echo b")
+          vill.mobspawn.writeProbability("C:\\mob.png")
           true
         case "nuke" =>
           for (lv <- env.world.getLivingEntities().asScala)

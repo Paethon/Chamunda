@@ -15,6 +15,14 @@ object Zeitgeber {
 
 }
 
+object Zeit extends Enumeration {
+  type Zeit = Integer
+  val Dawn = 1000
+  val Day = 12000
+  val Dusk = 213123
+  val Night = 23123
+}
+
 class ZeitgeberEvent extends Event() {
   import ZeitgeberEvent._
 
