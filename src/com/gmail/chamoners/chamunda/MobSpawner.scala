@@ -11,16 +11,15 @@ import org.bukkit.entity.Creature
 
 import Preamble._
 
-
 case class MobState(spawnPoint: Point) {
   var promoted = false
   var demoted = false
 }
 
 class MobSpawner(val center: Point,
-                 val xSpawnSize: Int, val zSpawnSize:Int, 
+                 val xSpawnSize: Int, val zSpawnSize: Int,
                  val xCitySize: Int, val zCitySize: Int,
-                 val env:Environment) {
+                 val env: Environment) {
   val spawnArray = Array.fill[Double](xSpawnSize, zSpawnSize)(1.0)
   val mobStates = HashMap.empty[Entity, MobState]
 
@@ -47,7 +46,7 @@ class MobSpawner(val center: Point,
   def addCreature(mob: Entity, spawnPoint: Point) {
     mobStates += (mob -> MobState(spawnPoint))
   }
-  
+
   def removeCreature(mob: Entity) {
     mobStates -= mob
   }
@@ -68,10 +67,12 @@ class MobSpawner(val center: Point,
    * @param value value with which the entries should be multiplied
    */
   private def multiply(center: Point, radius: Int, value: Double) {
-    for (
-      x <- center.x - radius until center.x + radius;
-      z <- center.z - radius until center.z + radius
-    ) spawnArray(x)(z) *= value
+    val xBegin = (center.x - radius) max 0
+    val xEnd = (center.x + radius) min (xSpawnSize - 1)
+    val zBegin = (center.z - radius) max 0
+    val zEnd = (center.z + radius) min (zSpawnSize - 1)
+    for ( x <- xBegin until xEnd; z <- zBegin until zEnd) 
+       spawnArray(x)(z) *= value
   }
   /**
    *
