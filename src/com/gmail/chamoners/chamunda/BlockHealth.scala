@@ -15,7 +15,7 @@ class BlockHealth(env: Environment) {
   def attack(b: Block) {
     import Material._
     val initialHealth = b.getType match {
-      case DIRT          => 5
+      case DIRT          => 1
       case STONE         => 10
       case DIAMOND_BLOCK => 20
       case _             => 5
@@ -27,7 +27,7 @@ class BlockHealth(env: Environment) {
       healthMap -= b
     } else {
       healthMap(b) = health - 1
-      env.world.playSound(b.getLocation, Sound.DIG_WOOD, 2, 1)
+      env.world.playSound(b.getLocation, Sound.DIG_WOOD, 1, 1)
     }
   }
 }
