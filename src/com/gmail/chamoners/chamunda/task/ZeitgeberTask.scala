@@ -14,7 +14,7 @@ class ZeitgeberTask(env: Environment) {
     if (zeit == Zeit.Night && time >= Zeit.Dawn.getTime()) changeZeit(Zeit.Dawn)
     if (zeit == Zeit.Dawn && time >= Zeit.Day.getTime()) changeZeit(Zeit.Day)
 
-    env.server.broadcastMessage(env.world.getTime() + " " + zeit)
+    //    env.server.broadcastMessage(env.world.getTime() + " " + zeit)
   }
 
   def attach {

@@ -20,8 +20,11 @@ import com.gmail.chamoners.chamunda.MobState
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason
 import com.gmail.chamoners.chamunda.ZeitgeberEvent
 import com.gmail.chamoners.chamunda.Zeit
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.Location
 
-case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener {
+case class ListenerSpawnlogic(env: Environment) extends Listener {
+  import env._
 
   val stdRad = 5
 
@@ -51,14 +54,14 @@ case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener 
 
   @EventHandler
   def blockDmgByMob(event: EntityInteractEvent) = {
-    env.server.broadcastMessage(event.getEventName())
+    server.broadcastMessage(event.getEventName())
   }
 
   @EventHandler
   def mobSpawn(event: CreatureSpawnEvent) = {
     val entity = event.getEntity()
     if (entity.isInstanceOf[Monster]) {
-      //      env.server.broadcastMessage(event.getSpawnReason().toString())
+      //      server.broadcastMessage(event.getSpawnReason().toString())
       if (event.getSpawnReason() == SpawnReason.NATURAL)
         event.setCancelled(true)
       //        true
@@ -71,13 +74,23 @@ case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener 
   @EventHandler
   def zeitChange(event: ZeitgeberEvent) = {
     event.getZeit match {
-      case Zeit.Dawn  => env.executeOnce(100) { env.changeZeit(Zeit.Day) }
-      case Zeit.Day   => env.executeOnce(100) { env.changeZeit(Zeit.Dusk) }
-      case Zeit.Dusk  => env.executeOnce(100) { env.changeZeit(Zeit.Night) }
-      case Zeit.Night => env.executeOnce(200) { env.changeZeit(Zeit.Dawn) }
+      case Zeit.Dawn  => executeOnce(400) { changeZeit(Zeit.Day) }
+      case Zeit.Day   => executeOnce(2400) { changeZeit(Zeit.Dusk) }
+      case Zeit.Dusk  => executeOnce(400) { changeZeit(Zeit.Night) }
+      case Zeit.Night => executeOnce(3600) { changeZeit(Zeit.Dawn) }
       case _          =>
     }
 
-    env.server.broadcastMessage("ZEITCHANGE: " + event.getZeit + " ")
+    server.broadcastMessage(">> " + event.getZeit + " ")
+  }
+
+  @EventHandler
+  def playerJoin(event: PlayerJoinEvent) = {
+    val l = vill.c(world)
+    l.setY(world.getHighestBlockYAt(vill.c(world)))
+    event.getPlayer().teleport(l)
+    event.getPlayer().setBedSpawnLocation(l)
+    //    event.getPlayer().sendMessage("hey thre")
+    //    server.broadcastMessage("ASD")
   }
 }
