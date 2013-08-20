@@ -16,6 +16,7 @@ import org.bukkit.Effect
 import com.gmail.chamoners.chamunda.task.MobController
 import com.gmail.chamoners.chamunda.task.ZeitgeberTask
 import com.gmail.chamoners.chamunda.task.MobSpawnTask
+import com.gmail.chamoners.chamunda.listener._
 
 class Chamunda extends JavaPlugin {
 
@@ -41,7 +42,7 @@ class Chamunda extends JavaPlugin {
     mobSpawnTask.attach
 
     //Create TestVillage
-    pm.registerEvents(listener.ListenerSpawnlogic(env, vill), this)
+    pm.registerEvents(ListenerSpawnlogic(env, vill), this)
 
     val vc = vill.c(env.world)
     vc.setY(env.world.getHighestBlockAt(vc).getY())
@@ -65,9 +66,11 @@ class Chamunda extends JavaPlugin {
           true
         case "a" =>
           val hs = new HashSet[java.lang.Byte]()
-          hs.add((0x00).byteValue)
-          val block = p.getTargetBlock(hs, 100)
-          p.sendMessage(block.getType.toString)
+          p.blockInFront match {
+            case Some(x) => p.sendMessage(x.getType.toString)
+            case None => p.sendMessage("No block")
+          }
+          
           true
         case "b" =>
           vill.mobspawn.writeProbability("C:\\mob.png")
