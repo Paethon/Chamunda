@@ -15,6 +15,7 @@ class BlockHealth(env: Environment) {
   val initialHealth = Map(
     DIRT -> 30,
     COBBLESTONE -> 100,
+    SANDSTONE -> 100,
     WOOD_DOOR -> 100,
     WOOD -> 50)
 
@@ -22,13 +23,12 @@ class BlockHealth(env: Environment) {
   val sound = Map(
     DIRT -> DIG_GRAVEL,
     COBBLESTONE -> DIG_STONE,
+    SANDSTONE -> DIG_STONE,
     WOOD_DOOR -> DIG_WOOD,
     WOOD -> DIG_WOOD)
 
   def attack(b: Block) {
     val blockType = b.getType
-    //    env.log.info(blockType.toString())
-
     if (initialHealth.contains(blockType)) {
       val health = healthMap.getOrElseUpdate(b, initialHealth(blockType))
 
