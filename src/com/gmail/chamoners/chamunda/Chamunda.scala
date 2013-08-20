@@ -17,6 +17,7 @@ import com.gmail.chamoners.chamunda.task.MobController
 import com.gmail.chamoners.chamunda.task.ZeitgeberTask
 import com.gmail.chamoners.chamunda.task.MobSpawnTask
 import com.gmail.chamoners.chamunda.listener._
+import com.gmail.chamoners.chamunda.task.MobBlockController
 
 class Chamunda extends JavaPlugin {
 
@@ -25,6 +26,7 @@ class Chamunda extends JavaPlugin {
 
   //Tasks
   lazy val mobControl = new MobController(env)
+  lazy val mobBlockControl = new MobBlockController(env)
   lazy val zeitgeberTask = new ZeitgeberTask(env)
   lazy val mobSpawnTask = new MobSpawnTask(env, vill)
 
@@ -37,7 +39,8 @@ class Chamunda extends JavaPlugin {
     val pm = this.getServer().getPluginManager()
 
     //Scheduler init
-    mobControl.attach
+    //mobControl.attach
+    mobBlockControl.attach
     zeitgeberTask.attach
     mobSpawnTask.attach
 
@@ -77,8 +80,8 @@ class Chamunda extends JavaPlugin {
           true
         case "nuke" =>
           for (lv <- env.world.getLivingEntities().asScala)
-            if (lv.isInstanceOf[Monster])
-              lv.remove()
+            if (!lv.isInstanceOf[Player])
+              env.world.createExplosion(lv.getLocation(), 5)
 
           p.sendMessage("KABOOOOM!")
           env.world.playEffect(p.getLocation(), Effect.BLAZE_SHOOT, 0)
