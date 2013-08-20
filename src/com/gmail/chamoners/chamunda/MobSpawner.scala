@@ -43,7 +43,8 @@ class MobSpawner(val center: Point,
 
       probability = spawnArray(x)(z)
     } while (rnd.nextDouble > probability)
-    Point(x, z)
+    (Point(center.x + x - xSpawnSize / 2, center.z + z - zSpawnSize / 2),
+      Point(x, z))
   }
 
   def addCreature(mob: Entity, spawnPoint: Point) {
@@ -55,10 +56,10 @@ class MobSpawner(val center: Point,
   }
 
   def spawn(entityType: EntityType) = {
-    val p = spawnPoint
-    val mob = env.world.spawnEntity(env.world.getHighestBlockAt(p.x, p.z).getLocation,
+    val (worldP, arrayP) = spawnPoint
+    val mob = env.world.spawnEntity(env.world.getHighestBlockAt(worldP.x, worldP.z).getLocation,
       entityType)
-    addCreature(mob, p)
+    addCreature(mob, arrayP)
     mob.asInstanceOf[Creature].setTarget(env.world.getPlayers.get(0))
   }
 
@@ -80,29 +81,19 @@ class MobSpawner(val center: Point,
   /**
    *
    */
-  def promote(e: Entity, radius: Int = 5, amount: Double = 1.2) {
-    if (mobStates.contains(e)) {
-      val state = mobStates(e)
-      if (!state.promoted) {
-        //        env.server.broadcastMessage("PRO-MODE " + radius + "/" + amount)
-        multiply(state.spawnPoint, radius, amount)
-        state.promoted = true
-      }
-    } else {
-      println(e)
+  def promote(e: LivingEntity, radius: Int = 5, amount: Double = 1.2) {
+    val state = mobStates(e)
+    if (!state.promoted) {
+      multiply(state.spawnPoint, radius, amount)
+      state.promoted = true
     }
   }
 
-  def demote(e: Entity, radius: Int = 5, amount: Double = 0.8) {
-    if (mobStates.contains(e)) {
-      val state = mobStates(e)
-      if (!state.demoted) {
-        //        env.server.broadcastMessage("DE-MODE " + radius + "/" + amount)
-        multiply(state.spawnPoint, radius, amount)
-        state.demoted = true
-      }
-    } else {
-      println(e)
+  def demote(e: LivingEntity, radius: Int = 5, amount: Double = 0.8) {
+    val state = mobStates(e)
+    if (!state.demoted) {
+      multiply(state.spawnPoint, radius, amount)
+      state.demoted = true
     }
   }
 
