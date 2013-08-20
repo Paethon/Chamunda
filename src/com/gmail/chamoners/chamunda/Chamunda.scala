@@ -48,7 +48,7 @@ class Chamunda extends JavaPlugin {
 
       cmd.getName.toLowerCase match {
         case "test" =>
-          val spawner = new MobSpawner(p.getLocation(), 20, 10, 10, Environment(this))
+          val spawner = new MobSpawner(p.getLocation(), 20, 20, 10, 10, Environment(this))
           for (i <- 1 to 100)
             spawner.spawn(EntityType.ZOMBIE)
           true

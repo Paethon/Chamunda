@@ -3,7 +3,7 @@ package com.gmail.chamoners.chamunda
 import com.gmail.chamoners.chamunda.MobSpawner
 
 class Village(val c: Point, val width: Int, val height: Int, env: Environment) {
-  lazy val mobspawn = new MobSpawner(c, 20, width, height, env)
+  lazy val mobspawn = new MobSpawner(c, width + 20, height + 20, width, height, env)
 }
 
 object Village {
