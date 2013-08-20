@@ -59,10 +59,6 @@ case class Environment(plugin: JavaPlugin) {
     server.getScheduler().scheduleSyncDelayedTask(plugin, f, delay)
   }
 
-  def zeitChange(zeit: Zeit) = {
-    world.setTime(zeit.getTime())
-  }
-
   def randomPlayer = {
     val players = world.getPlayers.asScala
     players(scala.util.Random.nextInt(players.length))

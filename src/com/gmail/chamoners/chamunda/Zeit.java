@@ -1,7 +1,7 @@
 package com.gmail.chamoners.chamunda;
 
 public enum Zeit {
-	Dawn(22900L), Day(23450), Dusk(12000), Night(13100);
+	Dawn(22900), Day(23450), Dusk(12000), Night(13100);
 
 	private final long time;
 
