@@ -81,18 +81,22 @@ class MobSpawner(val center: Point,
    *
    */
   def promote(e: LivingEntity, radius: Int = 5, amount: Double = 1.2) {
-    val state = mobStates(e)
-    if (!state.promoted) {
-      multiply(state.spawnPoint, radius, amount)
-      state.promoted = true
+    if (mobStates.contains(e)) {
+      val state = mobStates(e)
+      if (!state.promoted) {
+        multiply(state.spawnPoint, radius, amount)
+        state.promoted = true
+      }
     }
   }
 
   def demote(e: LivingEntity, radius: Int = 5, amount: Double = 0.8) {
-    val state = mobStates(e)
-    if (!state.demoted) {
-      multiply(state.spawnPoint, radius, amount)
-      state.demoted = true
+    if (mobStates.contains(e)) {
+      val state = mobStates(e)
+      if (!state.demoted) {
+        multiply(state.spawnPoint, radius, amount)
+        state.demoted = true
+      }
     }
   }
 

@@ -28,15 +28,17 @@ class Chamunda extends JavaPlugin {
   lazy val mobControl = new MobController(env)
   lazy val mobBlockControl = new MobBlockController
   lazy val zeitgeberTask = new ZeitgeberTask(env)
-  lazy val mobSpawnTask = new MobSpawnTask(env, vill)
-
-  var vill: Village = null
+  lazy val mobSpawnTask = new MobSpawnTask(env)
 
   override def onEnable {
-    vill = Village(Point(-149, 647), Point(-94, 711), env)
+    onChamundaEnable
+  }
 
-    //Listener init
-    val pm = this.getServer().getPluginManager()
+  override def onDisable {
+
+  }
+
+  def onChamundaEnable {
 
     //Scheduler init
     mobControl.attach
@@ -45,15 +47,11 @@ class Chamunda extends JavaPlugin {
     mobSpawnTask.attach
 
     //Create TestVillage
-    pm.registerEvents(ListenerSpawnlogic(env, vill), this)
-
-    val vc = vill.c(env.world)
-    vc.setY(env.world.getHighestBlockAt(vc).getY())
-    vc.getBlock().setType(Material.DIAMOND_BLOCK)
-
+    this.getServer().getPluginManager().registerEvents(ListenerSpawnlogic(env), this)
+    env.changeZeit(Zeit.Night)
   }
 
-  override def onDisable {
+  def onChamundaDisable {
 
   }
 
@@ -68,14 +66,17 @@ class Chamunda extends JavaPlugin {
             spawner.spawn(EntityType.ZOMBIE)
           true
         case "a" =>
-
+          p.sendMessage(env.zeit + " ")
           true
         case "b" =>
-          vill.mobspawn.writeProbability("C:\\mob.png")
+          env.vill.mobspawn.writeProbability("C:\\mob.png")
+          true
+        case "start" =>
+          onChamundaEnable
           true
         case "nuke" =>
           for (lv <- env.world.getLivingEntities().asScala)
-            if (!lv.isInstanceOf[Player])
+            if (lv.isInstanceOf[Monster])
               lv.setHealth(0)
 
           p.sendMessage("KABOOOOM!")
