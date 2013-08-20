@@ -18,6 +18,13 @@ class BlockHealth(env: Environment) {
     WOOD_DOOR -> 100,
     WOOD -> 50)
 
+  import Sound._
+  val sound = Map(
+    DIRT -> DIG_GRAVEL,
+    COBBLESTONE -> DIG_STONE,
+    WOOD_DOOR -> DIG_WOOD,
+    WOOD -> DIG_WOOD)
+
   def attack(b: Block) {
     val blockType = b.getType
     if (initialHealth.contains(blockType)) {
@@ -28,7 +35,7 @@ class BlockHealth(env: Environment) {
         healthMap -= b
       } else {
         healthMap(b) = health - 1
-        env.world.playSound(b.getLocation, Sound.DIG_WOOD, 1, 1)
+        env.world.playSound(b.getLocation, sound(blockType), 1, 1)
       }
     }
   }
