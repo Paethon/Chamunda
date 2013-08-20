@@ -43,7 +43,7 @@ class MobSpawner(val center: Point,
 
       probability = spawnArray(x)(z)
     } while (rnd.nextDouble > probability)
-    Point(center.x + x - xSpawnSize / 2, center.z + z - zSpawnSize / 2)
+    Point(x, z)
   }
 
   def addCreature(mob: Entity, spawnPoint: Point) {
@@ -71,9 +71,9 @@ class MobSpawner(val center: Point,
    */
   private def multiply(center: Point, radius: Int, value: Double) {
     val xBegin = (center.x - radius) max 0
-    val xEnd = (center.x + radius) min (xSpawnSize - 1)
+    val xEnd = (center.x + radius) min (xSpawnSize)
     val zBegin = (center.z - radius) max 0
-    val zEnd = (center.z + radius) min (zSpawnSize - 1)
+    val zEnd = (center.z + radius) min (zSpawnSize)
     for (x <- xBegin until xEnd; z <- zBegin until zEnd)
       spawnArray(x)(z) *= value
   }
