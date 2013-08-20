@@ -8,8 +8,11 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Creature
-
 import Preamble._
+import java.io.File
+import java.awt.image.BufferedImage
+import java.awt.Color
+import javax.imageio.ImageIO
 
 case class MobState(spawnPoint: Point) {
   var promoted = false
@@ -71,8 +74,8 @@ class MobSpawner(val center: Point,
     val xEnd = (center.x + radius) min (xSpawnSize - 1)
     val zBegin = (center.z - radius) max 0
     val zEnd = (center.z + radius) min (zSpawnSize - 1)
-    for ( x <- xBegin until xEnd; z <- zBegin until zEnd) 
-       spawnArray(x)(z) *= value
+    for (x <- xBegin until xEnd; z <- zBegin until zEnd)
+      spawnArray(x)(z) *= value
   }
   /**
    *
@@ -91,5 +94,20 @@ class MobSpawner(val center: Point,
       multiply(state.spawnPoint, radius, amount)
       state.demoted = true
     }
+  }
+
+  def writeProbability(filename: String) {
+    val image = new BufferedImage(xSpawnSize, zSpawnSize, 
+        BufferedImage.TYPE_INT_ARGB)
+    
+    for(x <- 0 until xSpawnSize; z <- 0 until zSpawnSize) {
+        val v = spawnArray(x)(z).floatValue min 1.0.floatValue
+        val c = new Color(v,v,v)
+    	val buf = image.setRGB(x, z, c.getRGB())
+    }
+    
+    // Save file
+    val file = new File(filename)
+    ImageIO.write(image, "png", file)
   }
 }
