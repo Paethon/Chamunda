@@ -11,21 +11,23 @@ import org.bukkit.entity.Creature
 
 import Preamble._
 
+
 case class MobState(spawnPoint: Point) {
   var promoted = false
   var demoted = false
 }
 
 class MobSpawner(val center: Point,
-                 val spawnsize: Int, val xCitySize: Int, val zCitySize: Int,
-                 val env: Environment) {
-  val spawnArray = Array.fill[Double](spawnsize, spawnsize)(1.0)
+                 val xSpawnSize: Int, val zSpawnSize:Int, 
+                 val xCitySize: Int, val zCitySize: Int,
+                 val env:Environment) {
+  val spawnArray = Array.fill[Double](xSpawnSize, zSpawnSize)(1.0)
   val mobStates = HashMap.empty[Entity, MobState]
 
   // Set spawn probability inside city to zero
   for (
-    x <- (spawnsize / 2) - (xCitySize / 2) until (spawnsize / 2) + (xCitySize / 2);
-    z <- (spawnsize / 2) - (zCitySize / 2) until (spawnsize / 2) + (zCitySize / 2)
+    x <- (xSpawnSize / 2) - (xCitySize / 2) until (xSpawnSize / 2) + (xCitySize / 2);
+    z <- (zSpawnSize / 2) - (zCitySize / 2) until (zSpawnSize / 2) + (zCitySize / 2)
   ) spawnArray(x)(z) = 0.0
 
   private def spawnPoint = {
@@ -34,18 +36,18 @@ class MobSpawner(val center: Point,
     var z = 0
 
     do {
-      x = rnd.nextInt(spawnsize)
-      z = rnd.nextInt(spawnsize)
+      x = rnd.nextInt(xSpawnSize)
+      z = rnd.nextInt(zSpawnSize)
 
       probability = spawnArray(x)(z)
     } while (rnd.nextDouble > probability)
-    Point(center.x + x - spawnsize / 2, center.z + z - spawnsize / 2)
+    Point(center.x + x - xSpawnSize / 2, center.z + z - zSpawnSize / 2)
   }
 
   def addCreature(mob: Entity, spawnPoint: Point) {
     mobStates += (mob -> MobState(spawnPoint))
   }
-
+  
   def removeCreature(mob: Entity) {
     mobStates -= mob
   }
