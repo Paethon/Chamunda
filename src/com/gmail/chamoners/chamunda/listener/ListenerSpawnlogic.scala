@@ -14,6 +14,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityChangeBlockEvent
 import org.bukkit.event.entity.EntityInteractEvent
+import org.bukkit.event.entity.CreatureSpawnEvent
+import com.gmail.chamoners.chamunda.Point
+import com.gmail.chamoners.chamunda.MobState
 
 case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener {
 
@@ -38,7 +41,7 @@ case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener 
 
   @EventHandler
   def mobDmg(event: EntityDamageByEntityEvent) = {
-    if (event.getDamager().isInstanceOf[LivingEntity] && !event.getEntity().isInstanceOf[Monster] && event.getDamager().isInstanceOf[Monster]) {
+    if (event.getDamager().isInstanceOf[Monster] && !event.getEntity().isInstanceOf[Monster]) {
       vill.mobspawn.promote(event.getDamager().asInstanceOf[LivingEntity], 10, 1.2)
     }
   }
@@ -46,5 +49,15 @@ case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener 
   @EventHandler
   def blockDmgByMob(event: EntityInteractEvent) = {
     env.server.broadcastMessage(event.getEventName())
+  }
+
+  @EventHandler
+  def mobSpawn(event: CreatureSpawnEvent) = {
+    val entity = event.getEntity()
+    if (entity.isInstanceOf[Monster]) {
+      //vill.mobspawn.addCreature(mob, spawnPoint)
+      val l = event.getLocation()
+      vill.mobspawn.mobStates += (entity -> MobState(Point(l.getBlockX(), l.getBlockZ())))
+    }
   }
 }

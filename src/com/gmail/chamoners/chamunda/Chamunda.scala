@@ -26,7 +26,7 @@ class Chamunda extends JavaPlugin {
     val pm = this.getServer().getPluginManager()
 
     //Scheduler init
-    mobControl.attach
+    //mobControl.attach
 
     //Create TestVillage
     val v = Village(Point(-149, 647), Point(-94, 711), env)
