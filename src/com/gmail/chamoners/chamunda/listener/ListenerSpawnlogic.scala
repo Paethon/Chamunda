@@ -102,13 +102,13 @@ case class ListenerSpawnlogic(env: Environment) extends Listener {
           mb.remove()
         }
 
-        vill.difficulty += 400
+        vill.difficulty += 200
 
       }
 
       case Zeit.Day   => executeOnce(2400) { changeZeit(Zeit.Dusk) }
       case Zeit.Dusk  => executeOnce(400) { changeZeit(Zeit.Night) }
-      case Zeit.Night => executeOnce(800 + vill.difficulty) { changeZeit(Zeit.Dawn) }
+      case Zeit.Night => executeOnce(400 + vill.difficulty) { changeZeit(Zeit.Dawn) }
       case _          =>
     }
 
