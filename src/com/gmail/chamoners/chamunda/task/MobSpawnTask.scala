@@ -8,7 +8,7 @@ import scala.collection.JavaConverters._
 
 class MobSpawnTask(env: Environment) {
   import EntityType._
-  val monsterList = List(ZOMBIE, SKELETON, SPIDER)
+  val monsterList = List(ZOMBIE, SKELETON, SILVERFISH)
   def randomMonster = monsterList(util.Random.nextInt(monsterList.length))
 
   private def timetick {
