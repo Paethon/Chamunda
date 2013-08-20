@@ -7,6 +7,7 @@ import org.bukkit.World
 import scala.collection.JavaConverters._
 import Preamble._
 import com.gmail.chamoners.chamunda.Zeit._
+import org.bukkit.entity.Villager
 
 case class Point(x: Int, z: Int) {
   def -(op: Point): Point = {
@@ -61,7 +62,19 @@ case class Environment(plugin: JavaPlugin) {
 
   def randomPlayer = {
     val players = world.getPlayers.asScala
-    players(scala.util.Random.nextInt(players.length))
+    if (players.length > 0)
+      Some(players(util.Random.nextInt(players.length)))
+    else
+      None
+  }
+
+  def randomVillager = {
+    val livingEntityList = world.getLivingEntities.asScala
+    val villagerList = livingEntityList.filter(_.isInstanceOf[Villager])
+    if (villagerList.length > 0)
+      Some(villagerList(util.Random.nextInt(villagerList.length)))
+    else
+      None
   }
 }
 
