@@ -22,7 +22,7 @@ class MobController(env: Environment) {
           controlledEntities += e
           val le = e.asInstanceOf[LivingEntity]
           val ce = ControllableMobs.getOrAssign(le)
-          ce.getAttributes().getMovementSpeedAttribute().setBasisValue(0.4)
+          //          ce.getAttributes().getMovementSpeedAttribute().setBasisValue(0.4)
           ce.getActions().target(player)
           ce.getActions().follow(player)
         }
