@@ -25,7 +25,7 @@ class BlockHealth(env: Environment) {
     if (health == 1) {
       b.setType(AIR)
       healthMap -= b
-      env.world.playSound(b.getLocation, Sound.EXPLODE, 2, 1)
+      env.world.playSound(b.getLocation, Sound.DIG_WOOD, 2, 1)
     } else {
       healthMap(b) = health - 1
       env.world.playSound(b.getLocation, Sound.DIG_GRAVEL, 2, 1)

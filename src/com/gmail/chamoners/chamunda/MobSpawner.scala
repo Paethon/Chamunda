@@ -60,7 +60,6 @@ class MobSpawner(val center: Point,
     val mob = env.world.spawnEntity(env.world.getHighestBlockAt(worldP.x, worldP.z).getLocation,
       entityType)
     addCreature(mob, arrayP)
-    mob.asInstanceOf[Creature].setTarget(env.world.getPlayers.get(0))
   }
 
   /**
