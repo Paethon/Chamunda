@@ -3,32 +3,18 @@ package com.gmail.chamoners.chamunda
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-object Zeitgeber {
+//object Zeit extends Enumeration {
+//  type Zeit = Integer
+//  val Dawn = 22900
+//  val Day = 23450
+//  val Dusk = 12000
+//  val Night = 13100
+//}
 
-  def isNight(t: Long): Boolean = {
-    true
-  }
-
-  def isDay(t: Long): Boolean = {
-    true
-  }
-
-}
-
-object Zeit extends Enumeration {
-  type Zeit = Integer
-  val Dawn = 1000
-  val Day = 12000
-  val Dusk = 213123
-  val Night = 23123
-}
-
-class ZeitgeberEvent extends Event() {
+class ZeitgeberEvent(val zeit: Zeit) extends Event() {
   import ZeitgeberEvent._
 
-  var message: String = null
-  def CustomEvent(example: String) = message = example
-  def getMessage(): String = message
+  def getZeit(): Zeit = zeit
   def getHandlers(): HandlerList = handlers
 
 }

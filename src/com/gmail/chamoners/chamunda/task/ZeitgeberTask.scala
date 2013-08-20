@@ -1,19 +1,21 @@
 package com.gmail.chamoners.chamunda.task
 
 import com.gmail.chamoners.chamunda.Environment
+import com.gmail.chamoners.chamunda.ZeitgeberEvent
 import com.gmail.chamoners.chamunda.Zeit
 
 class ZeitgeberTask(env: Environment) {
-  private var lastTime: Long = "99999999999999".toLong
-  private var zeit = Zeit.Day
+
+  import env._
   private def timetick {
+    val time = env.world.getTime()
+    if (zeit == Zeit.Day && time < Zeit.Day.getTime() && time >= Zeit.Dusk.getTime()) changeZeit(Zeit.Dusk)
+    if (zeit == Zeit.Dusk && time >= Zeit.Night.getTime()) changeZeit(Zeit.Night)
+    if (zeit == Zeit.Night && time >= Zeit.Dawn.getTime()) changeZeit(Zeit.Dawn)
+    if (zeit == Zeit.Dawn && time >= Zeit.Day.getTime()) changeZeit(Zeit.Day)
 
-    //    env.world.getTime()
-    env.server.broadcastMessage(env.world.getTime() + " ")
-    //        env.plugin.
+    //    env.server.broadcastMessage(env.world.getTime() + " " + zeit)
   }
-
-  //  private def 
 
   def attach {
     env.execute(100) { timetick }

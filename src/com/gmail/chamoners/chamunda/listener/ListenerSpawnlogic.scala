@@ -18,6 +18,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent
 import com.gmail.chamoners.chamunda.Point
 import com.gmail.chamoners.chamunda.MobState
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason
+import com.gmail.chamoners.chamunda.ZeitgeberEvent
+import com.gmail.chamoners.chamunda.Zeit
 
 case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener {
 
@@ -64,5 +66,18 @@ case class ListenerSpawnlogic(env: Environment, vill: Village) extends Listener 
       //      val l = event.getLocation()
       //      vill.mobspawn.mobStates += (entity -> MobState(Point(l.getBlockX(), l.getBlockZ())))
     }
+  }
+
+  @EventHandler
+  def zeitChange(event: ZeitgeberEvent) = {
+    event.getZeit match {
+      case Zeit.Dawn  => env.executeOnce(100) { env.changeZeit(Zeit.Day) }
+      case Zeit.Day   => env.executeOnce(100) { env.changeZeit(Zeit.Dusk) }
+      case Zeit.Dusk  => env.executeOnce(100) { env.changeZeit(Zeit.Night) }
+      case Zeit.Night => env.executeOnce(200) { env.changeZeit(Zeit.Dawn) }
+      case _          =>
+    }
+
+    env.server.broadcastMessage("ZEITCHANGE: " + event.getZeit + " ")
   }
 }

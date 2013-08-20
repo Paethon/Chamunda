@@ -68,12 +68,7 @@ class Chamunda extends JavaPlugin {
             spawner.spawn(EntityType.ZOMBIE)
           true
         case "a" =>
-          val hs = new HashSet[java.lang.Byte]()
-          p.blockToAttack match {
-            case Some(x) => p.sendMessage(x.getType.toString)
-            case None => p.sendMessage("No block")
-          }
-          
+
           true
         case "b" =>
           vill.mobspawn.writeProbability("C:\\mob.png")

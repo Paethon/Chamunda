@@ -6,6 +6,7 @@ import org.bukkit.Location
 import org.bukkit.World
 import scala.collection.JavaConverters._
 import Preamble._
+import com.gmail.chamoners.chamunda.Zeit._
 
 case class Point(x: Int, z: Int) {
   def -(op: Point): Point = {
@@ -34,11 +35,34 @@ case class Environment(plugin: JavaPlugin) {
   val server = plugin.getServer
   val world = server.getWorlds.get(0) //Plugin affects only Default World
   val log = Logger.getLogger("Minecraft")
-  
-  def execute(ticks:Int = 0)(f: => Any) = {
+  var zeit: Zeit = calcZeit()
+
+  def calcZeit(): Zeit = {
+    val time = world.getTime()
+    if (time >= Zeit.Dawn.getTime() && time < Zeit.Day.getTime()) Zeit.Dusk
+    else if (time >= Zeit.Day.getTime() || time < Zeit.Dusk.getTime()) Zeit.Day
+    else if (time >= Zeit.Dusk.getTime() && time < Zeit.Night.getTime()) Zeit.Dusk
+    else if (time >= Zeit.Night.getTime() && time < Zeit.Dawn.getTime()) Zeit.Night
+    else throw new Exception("ZeitCalc failed, shouldn't happen")
+  }
+
+  def changeZeit(newZeit: Zeit) {
+    zeit = newZeit
+    server.getPluginManager().callEvent(new ZeitgeberEvent(newZeit))
+  }
+
+  def execute(ticks: Int = 0)(f: => Any) = {
     server.getScheduler().scheduleSyncRepeatingTask(plugin, f, 0, ticks)
   }
-  
+
+  def executeOnce(delay: Int = 0)(f: => Any) = {
+    server.getScheduler().scheduleSyncDelayedTask(plugin, f, delay)
+  }
+
+  def zeitChange(zeit: Zeit) = {
+    world.setTime(zeit.getTime())
+  }
+
   def randomPlayer = {
     val players = world.getPlayers.asScala
     players(scala.util.Random.nextInt(players.length))
