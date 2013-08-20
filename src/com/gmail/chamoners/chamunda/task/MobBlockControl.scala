@@ -8,15 +8,15 @@ import org.bukkit.Material
 import com.gmail.chamoners.chamunda.BlockHealth
 
 
-class MobBlockController(env: Environment) {
-
+class MobBlockController(implicit env: Environment) {
+  
   val blockHealth = new BlockHealth(env)
   
   def control {
     val entities = env.world.getEntities().asScala
     for(e <- entities; if e.isInstanceOf[LivingEntity]) {
       val le = e.asInstanceOf[LivingEntity]
-      le.blockInFront match {
+      le.blockToAttack match {
         case Some(b) => blockHealth.attack(b)
         case None =>
       }

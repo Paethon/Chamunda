@@ -22,11 +22,11 @@ import com.gmail.chamoners.chamunda.task.MobBlockController
 class Chamunda extends JavaPlugin {
 
   lazy val log = Logger.getLogger("Minecraft")
-  lazy val env = Environment(this)
+  implicit lazy val env = Environment(this)
 
   //Tasks
   lazy val mobControl = new MobController(env)
-  lazy val mobBlockControl = new MobBlockController(env)
+  lazy val mobBlockControl = new MobBlockController
   lazy val zeitgeberTask = new ZeitgeberTask(env)
   lazy val mobSpawnTask = new MobSpawnTask(env, vill)
 
@@ -39,7 +39,7 @@ class Chamunda extends JavaPlugin {
     val pm = this.getServer().getPluginManager()
 
     //Scheduler init
-    //mobControl.attach
+    mobControl.attach
     mobBlockControl.attach
     zeitgeberTask.attach
     mobSpawnTask.attach
@@ -69,7 +69,7 @@ class Chamunda extends JavaPlugin {
           true
         case "a" =>
           val hs = new HashSet[java.lang.Byte]()
-          p.blockInFront match {
+          p.blockToAttack match {
             case Some(x) => p.sendMessage(x.getType.toString)
             case None => p.sendMessage("No block")
           }
