@@ -32,7 +32,8 @@ class MobController(env: Environment) {
                 case Some(rndVillager) =>
                   ce.getActions().target(rndVillager)
                   ce.getActions().follow(rndVillager)
-                case None => 
+                case None =>
+                  controlledEntities -= e
                   e.remove()
                   env.log.info("Removed zombie since no villager there to attach to")
               }
@@ -43,6 +44,7 @@ class MobController(env: Environment) {
                   ce.getActions().target(rndPlayer)
                   ce.getActions().follow(rndPlayer)
                 case None => 
+                  controlledEntities -= e
                   e.remove
                   env.log.info("Removed monster since no player there to attach to")
               }

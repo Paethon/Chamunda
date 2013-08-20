@@ -10,26 +10,26 @@ import org.bukkit.Sound
  * Implements attacking of blocks and removes block once the health reaches 0
  */
 class BlockHealth(env: Environment) {
+  import Material._
   val healthMap = HashMap.empty[Block, Int]
+  val initialHealth = Map(
+    DIRT -> 30,
+    COBBLESTONE -> 100,
+    WOOD_DOOR -> 100,
+    WOOD -> 50)
 
   def attack(b: Block) {
-    import Material._
-    val initialHealth = b.getType match {
-      case DIRT          => 9999
-      case STONE         => 10
-      case DIAMOND_BLOCK => 20
-      case WOOD => 80
-      case WOOD_DOOR => 40
-      case _             => 5
-    }
-    val health = healthMap.getOrElseUpdate(b, initialHealth)
+    val blockType = b.getType
+    if (initialHealth.contains(blockType)) {
+      val health = healthMap.getOrElseUpdate(b, initialHealth(blockType))
 
-    if (health == 1) {
-      b.setType(AIR)
-      healthMap -= b
-    } else {
-      healthMap(b) = health - 1
-      env.world.playSound(b.getLocation, Sound.DIG_WOOD, 1, 1)
+      if (health == 1) {
+        b.setType(AIR)
+        healthMap -= b
+      } else {
+        healthMap(b) = health - 1
+        env.world.playSound(b.getLocation, Sound.DIG_WOOD, 1, 1)
+      }
     }
   }
 }
