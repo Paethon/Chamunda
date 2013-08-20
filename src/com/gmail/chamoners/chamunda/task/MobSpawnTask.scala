@@ -10,7 +10,7 @@ class MobSpawnTask(env: Environment) {
   import EntityType._
   val monsterList = List(ZOMBIE, SKELETON, SPIDER)
   def randomMonster = monsterList(util.Random.nextInt(monsterList.length))
-  
+
   private def timetick {
     if (env.world.getPlayers().size() > 0)
       env.vill.mobspawn.spawn(randomMonster)

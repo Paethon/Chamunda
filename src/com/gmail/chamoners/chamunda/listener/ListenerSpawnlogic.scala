@@ -27,6 +27,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.Material
 import org.bukkit.event.player.PlayerRespawnEvent
 import scala.collection.JavaConverters._
+import org.bukkit.GameMode
 
 case class ListenerSpawnlogic(env: Environment) extends Listener {
   import env._
@@ -52,10 +53,10 @@ case class ListenerSpawnlogic(env: Environment) extends Listener {
         server.broadcastMessage(vill.villagers.size + " villagers remaining")
 
         if (vill.villagers.size <= 0) { // End Game
-          for (p <- world.getPlayers().asScala) {
-            p.sendMessage("You lost!")
-            p.setHealth(0.0)
-          }
+          for (p <- world.getPlayers().asScala)
+            p.kickPlayer("You lost man! All villagers died!")
+
+          server.shutdown()
         }
       }
     }
@@ -72,7 +73,7 @@ case class ListenerSpawnlogic(env: Environment) extends Listener {
 
   @EventHandler
   def blockDmgByMob(event: EntityInteractEvent) = {
-    server.broadcastMessage(event.getEventName())
+    //    server.broadcastMessage(event.getEventName())
   }
 
   @EventHandler
@@ -92,10 +93,22 @@ case class ListenerSpawnlogic(env: Environment) extends Listener {
   @EventHandler
   def zeitChange(event: ZeitgeberEvent) = {
     event.getZeit match {
-      case Zeit.Dawn  => executeOnce(400) { changeZeit(Zeit.Day) }
-      case Zeit.Day   => executeOnce(1200) { changeZeit(Zeit.Dusk) }
+      case Zeit.Dawn => executeOnce(400) {
+        changeZeit(Zeit.Day)
+
+        //Clear living mobs at begin of day
+        for (mb <- vill.mobspawn.mobStates.keySet) {
+          vill.mobspawn.removeCreature(mb)
+          mb.remove()
+        }
+
+        vill.difficulty += 800
+
+      }
+
+      case Zeit.Day   => executeOnce(1800) { changeZeit(Zeit.Dusk) }
       case Zeit.Dusk  => executeOnce(400) { changeZeit(Zeit.Night) }
-      case Zeit.Night => executeOnce(2800) { changeZeit(Zeit.Dawn) }
+      case Zeit.Night => executeOnce(1600 + vill.difficulty) { changeZeit(Zeit.Dawn) }
       case _          =>
     }
 
@@ -107,13 +120,14 @@ case class ListenerSpawnlogic(env: Environment) extends Listener {
     val l = vill.c(world)
     l.setY(world.getHighestBlockYAt(vill.c(world)) + 3)
 
-    event.getPlayer().teleport(l)
-    //    event.getPlayer().setBedSpawnLocation(l)
+    val p = event.getPlayer()
 
-    event.getPlayer().getInventory().clear()
-    event.getPlayer().getInventory().addItem(new ItemStack(Material.STONE_SWORD, 1))
-    //    event.getPlayer().sendMessage("hey thre")
-    //    server.broadcastMessage("ASD")
+    p.teleport(l)
+
+    p.getInventory().clear()
+    p.getInventory().addItem(new ItemStack(Material.STONE_SWORD, 1))
+
+    p.setGameMode(GameMode.SURVIVAL)
   }
 
   @EventHandler
@@ -121,5 +135,7 @@ case class ListenerSpawnlogic(env: Environment) extends Listener {
     val l = vill.c(world)
     l.setY(world.getHighestBlockYAt(vill.c(world)) + 3)
     event.setRespawnLocation(l)
+
+    event.getPlayer().getInventory().addItem(new ItemStack(Material.STONE_SWORD, 1))
   }
 }
