@@ -81,7 +81,7 @@ class Chamunda extends JavaPlugin {
         case "nuke" =>
           for (lv <- env.world.getLivingEntities().asScala)
             if (!lv.isInstanceOf[Player])
-              env.world.createExplosion(lv.getLocation(), 5)
+              lv.setHealth(0)
 
           p.sendMessage("KABOOOOM!")
           env.world.playEffect(p.getLocation(), Effect.BLAZE_SHOOT, 0)

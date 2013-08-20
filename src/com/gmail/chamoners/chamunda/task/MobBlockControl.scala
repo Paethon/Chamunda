@@ -6,6 +6,8 @@ import scala.collection.JavaConverters._
 import org.bukkit.entity.LivingEntity
 import org.bukkit.Material
 import com.gmail.chamoners.chamunda.BlockHealth
+import org.bukkit.entity.Player
+import org.bukkit.entity.Zombie
 
 
 class MobBlockController(implicit env: Environment) {
@@ -14,7 +16,7 @@ class MobBlockController(implicit env: Environment) {
   
   def control {
     val entities = env.world.getEntities().asScala
-    for(e <- entities; if e.isInstanceOf[LivingEntity]) {
+    for(e <- entities; if e.isInstanceOf[Zombie]) {
       val le = e.asInstanceOf[LivingEntity]
       le.blockToAttack match {
         case Some(b) => blockHealth.attack(b)
