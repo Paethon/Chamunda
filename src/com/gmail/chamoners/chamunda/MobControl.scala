@@ -11,12 +11,6 @@ import org.bukkit.entity.Entity
 import de.ntcomputer.minecraft.controllablemobs.api.ControllableMobs
 import de.ntcomputer.minecraft.controllablemobs.api.ai.behaviors.AIAttackMelee
 
-/*
-def test() {
-    server.getScheduler().scheduleSyncRepeatingTask(plugin, { println("test") }, 0, 1)
-  }
- */
-
 class MobController(env: Environment) {
 
   val controlledEntities = HashSet.empty[Entity]
@@ -29,17 +23,17 @@ class MobController(env: Environment) {
         if (!controlledEntities.contains(e) && e.getType == EntityType.ZOMBIE) {
           controlledEntities += e
           val le = e.asInstanceOf[LivingEntity]
-          val ce = ControllableMobs.getOrAssign(le,true)
+          val ce = ControllableMobs.getOrAssign(le, true)
           ce.getAttributes().getMovementSpeedAttribute().setBasisValue(0.4)
-        	  ce.getActions().target(player)
-        	  ce.getActions().follow(player)
+          ce.getActions().target(player)
+          ce.getActions().follow(player)
         }
       }
     }
   }
 
   def attach {
-    env.server.getScheduler().scheduleSyncRepeatingTask(env.plugin, control, 0, 20)
+    env.execute(20){control}
     env.log.info("MobController attached")
   }
 }

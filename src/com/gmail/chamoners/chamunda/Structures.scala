@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 import org.bukkit.Location
 import org.bukkit.World
+import Preamble._
 
 case class Point(x: Int, z: Int) {
   def -(op: Point): Point = {
@@ -32,5 +33,9 @@ case class Environment(plugin: JavaPlugin) {
   val server = plugin.getServer
   val world = server.getWorlds.get(0) //Plugin affects only Default World
   val log = Logger.getLogger("Minecraft")
+  
+  def execute(ticks:Int = 0)(f: => Any) = {
+    server.getScheduler().scheduleSyncRepeatingTask(plugin, f, 0, ticks)
+  }
 }
 
