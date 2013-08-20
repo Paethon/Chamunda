@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 import org.bukkit.Location
 import org.bukkit.World
+import scala.collection.JavaConverters._
 import Preamble._
 
 case class Point(x: Int, z: Int) {
@@ -36,6 +37,11 @@ case class Environment(plugin: JavaPlugin) {
   
   def execute(ticks:Int = 0)(f: => Any) = {
     server.getScheduler().scheduleSyncRepeatingTask(plugin, f, 0, ticks)
+  }
+  
+  def randomPlayer = {
+    val players = world.getPlayers.asScala
+    players(scala.util.Random.nextInt(players.length))
   }
 }
 
