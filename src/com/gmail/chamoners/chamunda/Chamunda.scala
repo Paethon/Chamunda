@@ -18,6 +18,7 @@ import com.gmail.chamoners.chamunda.task.ZeitgeberTask
 import com.gmail.chamoners.chamunda.task.MobSpawnTask
 import com.gmail.chamoners.chamunda.listener._
 import com.gmail.chamoners.chamunda.task.MobBlockController
+import org.bukkit.entity.LivingEntity
 
 class Chamunda extends JavaPlugin {
 
@@ -47,7 +48,8 @@ class Chamunda extends JavaPlugin {
     mobSpawnTask.attach
 
     //Create TestVillage
-    this.getServer().getPluginManager().registerEvents(ListenerSpawnlogic(env), this)
+    this.getServer().getPluginManager().
+      registerEvents(ListenerSpawnlogic(env), this)
     env.changeZeit(Zeit.Dusk)
   }
 
@@ -55,18 +57,26 @@ class Chamunda extends JavaPlugin {
 
   }
 
-  override def onCommand(sender: CommandSender, cmd: Command, label: String, args: Array[String]) = {
+  override def onCommand(sender: CommandSender, cmd: Command,
+                         label: String, args: Array[String]) = {
     if (sender.isInstanceOf[Player]) {
       val p = sender.asInstanceOf[Player]
 
       cmd.getName.toLowerCase match {
         case "test" =>
-          val spawner = new MobSpawner(p.getLocation(), 20, 20, 10, 10, Environment(this))
+          val spawner = new MobSpawner(p.getLocation(), 20, 20, 10, 10,
+            Environment(this))
           for (i <- 1 to 100)
             spawner.spawn(EntityType.ZOMBIE)
           true
         case "a" =>
-          p.sendMessage(env.zeit + " ")
+          p.asInstanceOf[LivingEntity].blockToAttack match {
+            case Some(block) => 
+              println(block.getType())
+              block.setType(Material.AIR)
+            case None => println("No block")
+          }
+          
           true
         case "b" =>
           env.vill.mobspawn.writeProbability("C:\\mob.png")

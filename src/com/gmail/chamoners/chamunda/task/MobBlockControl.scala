@@ -16,8 +16,9 @@ class MobBlockController(implicit env: Environment) {
   val blockHealth = new BlockHealth(env)
   
   def control {
-    val entities = env.world.getEntities().asScala
-    for(e <- entities; if e.isInstanceOf[Zombie] || e.isInstanceOf[Skeleton]) {
+    // val entities = env.world.getEntities().asScala
+    // for(e <- entities; if e.isInstanceOf[Zombie] || e.isInstanceOf[Skeleton]) {
+    for(e <- env.vill.mobspawn.mobStates.keySet) {
       val le = e.asInstanceOf[LivingEntity]
       le.blockToAttack match {
         case Some(b) => blockHealth.attack(b)
